@@ -3,7 +3,7 @@
 	import { auth, db } from '$lib/firebase-client/config';
 	import { onAuthStateChanged } from 'firebase/auth';
 	import { goto } from '$app/navigation';
-	import { collection, addDoc, query, type DocumentData, onSnapshot } from 'firebase/firestore';
+	import { collection, addDoc, query, onSnapshot } from 'firebase/firestore';
 
 	import type { Project } from '$lib/types';
 
@@ -63,18 +63,39 @@
 	};
 </script>
 
-<input type="text" placeholder="Add new project..." bind:value={newProjectName} />
-<button on:click={handleAddNewProject} disabled={loading}> Add project</button>
+<div class="h-screen flex flex-col justify-center items-center">
+	<div>
+		<div>
+			<input
+				type="text"
+				placeholder="New project name..."
+				bind:value={newProjectName}
+				class="border-2 border-black px-4"
+			/>
+			<button
+				on:click={handleAddNewProject}
+				disabled={loading}
+				class="border-2 border-black px-2 m-2"
+			>
+				Add project</button
+			>
+		</div>
 
-{#if loading}
-	<p>Loading projects...</p>
-{:else}
-	<h2>Your Projects</h2>
-	<ul>
-		{#each projects as project}
-			<li>
-				<a href={`/project/${project.id}`}> {project.name} </a>
-			</li>
-		{/each}
-	</ul>
-{/if}
+		{#if loading}
+			<p>Loading projects...</p>
+		{:else}
+			<div>
+				<h2 class="text-2xl my-4">Your Projects</h2>
+				<ul class="border-l-2 border-black pl-2 items-center">
+					{#each projects as project}
+						<li>
+							<a href={`/project/${project.id}`} class="text-blue-700 underline">
+								{project.name}
+							</a>
+						</li>
+					{/each}
+				</ul>
+			</div>
+		{/if}
+	</div>
+</div>

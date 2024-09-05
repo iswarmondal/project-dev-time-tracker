@@ -94,10 +94,23 @@
 	});
 </script>
 
-<div>
-	Timer: {hours.toString().padStart(2, '0')}:{minutes.toString().padStart(2, '0')}:{seconds
-		.toString()
-		.padStart(2, '0')}
+<div class="h-screen flex flex-col justify-center items-center">
+	<pre class="text-4xl">{hours.toString().padStart(2, '0')}:{minutes
+			.toString()
+			.padStart(2, '0')}:{seconds.toString().padStart(2, '0')}
+	</pre>
+	<div>
+		<button
+			on:click={startTimer}
+			disabled={timerRunning}
+			class="p-4 cursor-pointer"
+			class:opacity-30={timerRunning}>Play</button
+		>
+		<button
+			on:click={pauseTimer}
+			disabled={!timerRunning}
+			class="p-4 cursor-pointer"
+			class:opacity-30={!timerRunning}>Pause</button
+		>
+	</div>
 </div>
-<button on:click={startTimer} disabled={timerRunning}>Play</button>
-<button on:click={pauseTimer} disabled={!timerRunning}>Pause</button>
