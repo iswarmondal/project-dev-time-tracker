@@ -4,6 +4,9 @@
 	import { onAuthStateChanged } from 'firebase/auth';
 	import { goto } from '$app/navigation';
 	import { collection, addDoc, query, onSnapshot } from 'firebase/firestore';
+	import { Button } from '$lib/components/ui/button';
+	import { Input } from '$lib/components/ui/input';
+	import LoaderCircle from 'lucide-svelte/icons/loader-circle';
 
 	import type { Project } from '$lib/types';
 
@@ -63,30 +66,26 @@
 	};
 </script>
 
-<div class="h-screen flex flex-col justify-center items-center">
-	<div>
-		<div>
-			<input
-				type="text"
-				placeholder="New project name..."
-				bind:value={newProjectName}
-				class="border-2 border-black px-4"
-			/>
-			<button
-				on:click={handleAddNewProject}
-				disabled={loading}
-				class="border-2 border-black px-2 m-2"
-			>
-				Add project</button
-			>
-		</div>
+<div class="flex h-screen flex-col items-center justify-center">
+	<div class="min-w-sm max-w-md">
+		<form
+			class="flex w-full max-w-sm items-center space-x-2"
+			on:submit|preventDefault={handleAddNewProject}
+		>
+			<Input type="text" placeholder="New project name..." bind:value={newProjectName} />
+			{#if loading}
+				<Button disabled><LoaderCircle class="mr-2 h-4 w-4 animate-spin" /> Wait</Button>
+			{:else}
+				<Button type="submit">Add project</Button>
+			{/if}
+		</form>
 
 		{#if loading}
 			<p>Loading projects...</p>
 		{:else}
 			<div>
-				<h2 class="text-2xl my-4">Your Projects</h2>
-				<ul class="border-l-2 border-black pl-2 items-center">
+				<h2 class="my-4 text-2xl">Your Projects</h2>
+				<ul class="items-center border-l-2 border-black pl-2">
 					{#each projects as project}
 						<li>
 							<a href={`/project/${project.id}`} class="text-blue-700 underline">
