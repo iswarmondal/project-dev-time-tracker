@@ -1,4 +1,6 @@
+import { PUBLIC_RECAPTCHA_SITE_KEY } from '$env/static/public';
 import { initializeApp } from 'firebase/app';
+import { initializeAppCheck, ReCaptchaV3Provider } from 'firebase/app-check';
 import { getAuth } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 // Your web app's Firebase configuration
@@ -15,3 +17,14 @@ const firebaseConfig = {
 export const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 export const db = getFirestore(app);
+
+
+try {
+	// Initialize Firebase App Check
+	const appCheck = initializeAppCheck(app, {
+		provider: new ReCaptchaV3Provider(PUBLIC_RECAPTCHA_SITE_KEY),
+		// isTokenAutoRefreshEnabled: true
+	});
+} catch (error) {
+	console.error(error);
+}
