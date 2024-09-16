@@ -20,6 +20,11 @@ export const db = getFirestore(app);
 
 
 try {
+	if (import.meta.env.DEV) {
+		console.log('DEV MODE');
+		// @ts-ignore
+		window.FIREBASE_APPCHECK_DEBUG_TOKEN = true;
+	}
 	// Initialize Firebase App Check
 	const appCheck = initializeAppCheck(app, {
 		provider: new ReCaptchaV3Provider(PUBLIC_RECAPTCHA_SITE_KEY),
